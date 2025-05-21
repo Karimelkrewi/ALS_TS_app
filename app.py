@@ -22,7 +22,7 @@ equipment_names = []
 
 if sheet_type == "Personal Timesheet":
     if 'tech_count' not in st.session_state:
-        st.session_state.tech_count = 2
+        st.session_state.tech_count = 1
 
     if st.button("+ Add Technician"):
         st.session_state.tech_count += 1
@@ -35,9 +35,9 @@ else:
         'BOP Can for 7" Rams',
 	'BOP Can for 9 5/8" Rams',
         'ESP Welltest Toolbox Container c/w lifting tools',
-        'ESP String (DHE) 300-1200 BPD + Cable',
-	'ESP String (DHE) 1100-2500 BPD + Cable',
-	'ESP String (DHE) 2300-4500 BPD + Cable',
+        'ESP String (DHE) 300-1200 BPD',
+	'ESP String (DHE) 1100-2500 BPD',
+	'ESP String (DHE) 2300-4500 BPD',
 	'Y-Tool Set: For 7" or 9 5/8" Casing',
         "Phoenix Multisensor '1', 257 deg F rated",
         'Generator',
@@ -48,7 +48,7 @@ else:
 
 if sheet_type == "Equipment Timesheet":
     if 'equip_count' not in st.session_state:
-        st.session_state.equip_count = 3
+        st.session_state.equip_count = 1
 
     if st.button("+ Add Equipment"):
         if st.session_state.equip_count < 7:
@@ -94,7 +94,8 @@ if st.button("Generate Timesheet"):
         shift = data_rows - 2
 
         # Title and message
-        worksheet.merge_range('A1:AI1', 'Field Services Timesheet', title_fmt)
+        title_text = 'Field Services Timesheet' if sheet_type == "Personal Timesheet" else 'SLB Equipment Service Time Sheet'
+	worksheet.merge_range('A1:AI1', title_text, title_fmt)
         worksheet.merge_range(f'A{10 + shift}:AI{10 + shift}',
                               'The above certifies and represents the number of days that lw Services have been provided at location',
                               subhead_fmt)
@@ -171,7 +172,7 @@ if st.button("Generate Timesheet"):
         # Column widths
         worksheet.set_column('A:A', 5)
         worksheet.set_column('B:B', 8)
-        worksheet.set_column('C:C', 35)
+        worksheet.set_column('C:C', 39)
         worksheet.set_column('D:D', 12)
         worksheet.set_column('E:AI', 5)
         worksheet.set_column('AJ:AJ', 5)
